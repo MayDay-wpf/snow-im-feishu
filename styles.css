@@ -1,0 +1,313 @@
+/* 飞书连接面板样式：全部类名以 feishu- 前缀，颜色只取主题变量（跟随应用主题）。 */
+
+.feishu-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  overflow-y: auto;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.feishu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.feishu-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.feishu-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feishu-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  color: var(--text-tertiary);
+}
+
+.feishu-icon-button:hover {
+  color: var(--text-primary);
+}
+
+.feishu-status {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.feishu-status-online {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.feishu-status-error {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+.feishu-status-connecting,
+.feishu-status-reconnecting {
+  border-color: var(--text-tertiary);
+  color: var(--text-secondary);
+}
+
+.feishu-banner {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--accent-red);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  word-break: break-all;
+}
+
+.feishu-notice {
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+}
+
+.feishu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+}
+
+.feishu-section-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.feishu-credentials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feishu-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.feishu-row-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.feishu-row-title {
+  color: var(--text-primary);
+}
+
+.feishu-row-hint {
+  color: var(--text-muted);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+.feishu-row-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  max-width: 62%;
+}
+
+.feishu-toggle-text {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.feishu-input,
+.feishu-select {
+  width: 100%;
+  min-width: 160px;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 11.5px;
+  font-family: inherit;
+}
+
+.feishu-input:focus,
+.feishu-select:focus {
+  outline: none;
+  border-color: var(--text-tertiary);
+}
+
+.feishu-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 主按钮沿用主题的前景色/反色（浅色主题黑底白字、深色主题白底黑字），与开关的选中态同一套颜色。 */
+.feishu-primary {
+  padding: 6px 14px;
+  border: 1px solid var(--text-primary);
+  border-radius: 6px;
+  background: var(--text-primary);
+  color: var(--on-solid, #fff);
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.feishu-primary:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.feishu-secondary {
+  padding: 5px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.feishu-secondary:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: var(--text-tertiary);
+}
+
+.feishu-primary:disabled,
+.feishu-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feishu-tip {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  line-height: 1.6;
+}
+
+.feishu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feishu-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 9px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+}
+
+.feishu-list-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.feishu-list-title {
+  color: var(--text-primary);
+  font-size: 11.5px;
+}
+
+.feishu-list-sub {
+  color: var(--text-muted);
+  font-size: 10.5px;
+  word-break: break-all;
+}
+
+.feishu-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.feishu-empty {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.feishu-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.feishu-logs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+.feishu-log {
+  display: flex;
+  gap: 8px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--text-tertiary);
+}
+
+.feishu-log-warn {
+  color: var(--text-secondary);
+}
+
+.feishu-log-error {
+  color: var(--accent-red);
+}
+
+.feishu-log-time {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.feishu-log-text {
+  word-break: break-all;
+}

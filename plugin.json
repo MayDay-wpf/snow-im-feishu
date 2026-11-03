@@ -1,0 +1,44 @@
+{
+  "id": "com.snow.im-feishu",
+  "name": {
+    "default": "Feishu Connect",
+    "zh-CN": "飞书连接",
+    "zh-TW": "飛書連接",
+    "en": "Feishu Connect"
+  },
+  "description": {
+    "default": "Use Feishu (Lark) as a lightweight Snow App entry: drive a bound conversation from a private or group chat over the Feishu long connection, stream replies back, answer tool approvals and questions, and hand received images and files to the conversation.",
+    "zh-CN": "把飞书当作 Snow App 的轻量入口：用自建应用的 App ID / App Secret 建立飞书事件长连接，在私聊或群里下任务、看流式回复、批准工具授权与回答选择题，并把收到的图片与文件交给绑定会话处理。",
+    "zh-TW": "把飛書當作 Snow App 的輕量入口：用自建應用的 App ID / App Secret 建立飛書事件長連接，在私聊或群裡下任務、看流式回覆、批准工具授權與回答選擇題，並把收到的圖片與檔案交給綁定工作階段處理。",
+    "en": "Use Feishu (Lark) as a lightweight Snow App entry: drive a bound conversation from a private or group chat over the Feishu long connection, stream replies back, answer tool approvals and questions, and hand received images and files to the conversation."
+  },
+  "version": "0.1.4",
+  "author": "MayMay",
+  "license": "MIT",
+  "icon": "assets/feishu.svg",
+  "renderMode": "esm",
+  "entry": "index.js",
+  "background": { "entry": "background.mjs" },
+  "panels": [
+    {
+      "id": "feishu",
+      "title": {
+        "default": "Feishu Connect",
+        "zh-CN": "飞书连接",
+        "zh-TW": "飛書連接",
+        "en": "Feishu Connect"
+      },
+      "icon": "assets/feishu.svg",
+      "widthHint": "460px"
+    }
+  ],
+  "locales": {
+    "zh-CN": "locales/zh-CN.json",
+    "en": "locales/en.json"
+  },
+  "styles": ["styles.css"],
+  "privacy": {
+    "scopes": ["network", "conversations", "messages", "toolApproval"],
+    "note": "network 用于飞书长连接与 OpenAPI 调用；conversations 用于把聊天消息投递到绑定会话、新建会话与中止运行；messages 用于读取会话消息以做流式回推、读取待处理的工具授权与提问；toolApproval 用于把「批准 / 拒绝」回包写回本机待授权队列。凭证只经系统安全存储保存，不上传、不写入日志。"
+  }
+}
