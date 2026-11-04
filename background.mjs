@@ -7,18 +7,92 @@
  * `ctx.secrets`（Electron safeStorage）并删除交接键，明文不在存储中留存。
  */
 
-import { createConnection } from "./lib/connection.mjs";
-import { createFeishuApi } from "./lib/feishu.mjs";
-import { createRouter } from "./lib/router.mjs";
-import { createStore } from "./lib/store.mjs";
+import { createHash } from "node:crypto";
+import { cp, mkdir, readdir, rm, stat } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const SECRET_NAME = "feishu-app-secret";
 const LOOP_INTERVAL_MS = 1000;
 const DOMAIN = "https://open.feishu.cn";
+const CACHE_ROOT = join(tmpdir(), "snow-im-feishu-lib");
 
 const describe = (error) => (error instanceof Error ? error.message : String(error));
 
+const exists = async (path) => {
+  try {
+    await stat(path);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * 计算 lib/ 的内容指纹（名称 + 大小 + mtime）。
+ *
+ * 后台入口每次启动都会被重新读取，但它 import 的 `lib/*.mjs` 会被主进程的 ESM
+ * 缓存复用：只重装插件（不彻底退出应用）时，改过的 lib 不会生效，很容易被误认为
+ * 「改动没起作用」。这里把 lib 拷到按指纹命名的临时目录后再导入，URL 一变就是新
+ * 模块，因此重装即可生效，不需要重启应用。
+ */
+const fingerprint = async (dir) => {
+  const names = (await readdir(dir)).filter((name) => name.endsWith(".mjs")).sort();
+  const hash = createHash("sha1");
+  for (const name of names) {
+    const info = await stat(join(dir, name));
+    hash.update(`${name}:${info.size}:${info.mtimeMs}`);
+  }
+  return hash.digest("hex").slice(0, 16);
+};
+
+const loadLibs = async (ctx) => {
+  const fallback = async () => ({
+    store: await import("./lib/store.mjs"),
+    feishu: await import("./lib/feishu.mjs"),
+    connection: await import("./lib/connection.mjs"),
+    router: await import("./lib/router.mjs"),
+  });
+
+  if (!ctx.installPath) {
+    return fallback();
+  }
+  try {
+    const source = join(ctx.installPath, "lib");
+    const key = await fingerprint(source);
+    const target = join(CACHE_ROOT, key, "lib");
+    if (!(await exists(join(target, "router.mjs")))) {
+      await mkdir(join(CACHE_ROOT, key), { recursive: true });
+      await cp(source, target, { recursive: true, force: true });
+      // 只保留当前这份拷贝，避免临时目录里堆历史版本。
+      for (const name of await readdir(CACHE_ROOT)) {
+        if (name !== key) {
+          await rm(join(CACHE_ROOT, name), { recursive: true, force: true }).catch(() => {});
+        }
+      }
+    }
+    const load = (name) => import(pathToFileURL(join(target, name)).href);
+    const [store, feishu, connection, router] = await Promise.all([
+      load("store.mjs"),
+      load("feishu.mjs"),
+      load("connection.mjs"),
+      load("router.mjs"),
+    ]);
+    return { store, feishu, connection, router };
+  } catch (error) {
+    ctx.log(`版本化加载 lib 失败，回退直接导入：${describe(error)}`);
+    return fallback();
+  }
+};
+
 export async function start(ctx) {
+  const libs = await loadLibs(ctx);
+  const { createStore } = libs.store;
+  const { createFeishuApi } = libs.feishu;
+  const { createConnection } = libs.connection;
+  const { createRouter } = libs.router;
+
   const store = createStore(ctx);
   const log = (message) => {
     ctx.log(message);

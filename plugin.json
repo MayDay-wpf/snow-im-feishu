@@ -12,7 +12,7 @@
     "zh-TW": "把飛書當作 Snow App 的輕量入口：用自建應用的 App ID / App Secret 建立飛書事件長連接，在私聊或群裡下任務、看流式回覆、批准工具授權與回答選擇題，並把收到的圖片與檔案交給綁定工作階段處理。",
     "en": "Use Feishu (Lark) as a lightweight Snow App entry: drive a bound conversation from a private or group chat over the Feishu long connection, stream replies back, answer tool approvals and questions, and hand received images and files to the conversation."
   },
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "MayMay",
   "license": "MIT",
   "icon": "assets/feishu.svg",
